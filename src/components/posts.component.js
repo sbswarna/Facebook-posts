@@ -65,17 +65,7 @@ class Posts extends React.Component {
   };
 
   addNewPost = () => {
-    const posts = [...this.state.posts];
-    const post = {
-      post_id: posts[posts.length - 1].post_id + 1,
-      date_posted: "01 May 2019",
-      time_posted: "09:17 PM",
-      img: require("../images/img1.jpeg"),
-      is_liked: false,
-      is_disliked: false,
-    };
-    posts.push(post);
-    this.setState({ posts });
+    console.log('Post Added')
   };
 
   increaseTotalNumberofLikes = () => {

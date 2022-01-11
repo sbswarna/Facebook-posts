@@ -14,14 +14,14 @@ class Navbar extends React.Component {
           <div className="d-flex justify-content-between">
             <div>
               <p className="m-3">
-                Like{" "}
-                <span className="badge alert-danger">{totalNumberOfLikes}</span>
+                Like
+                <span className="badge alert-danger mx-1">{totalNumberOfLikes}</span>
               </p>
             </div>
             <div>
               <p className="m-3">
-                Dislike{" "}
-                <span className="badge alert-danger">
+                Dislike
+                <span className="badge alert-danger mx-1">
                   {totalNumberOfDislikes}
                 </span>
               </p>

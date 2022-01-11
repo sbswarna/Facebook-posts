@@ -6,6 +6,7 @@ class Post extends React.Component {
   render() {
     const { post_id, date_posted, time_posted, is_liked, is_disliked, img } =
       this.props.post;
+
     const {
       handleToggleLike,
       handleToggleDislike,
@@ -15,6 +16,7 @@ class Post extends React.Component {
       increaseTotalNumberofDislikes,
       decreaseTotalNumberofDislikes,
     } = this.props;
+
     return (
       <>
         <div className="card" style={{ width: "25rem" }}>
@@ -32,10 +34,10 @@ class Post extends React.Component {
             <hr />
 
             <img src={img} className="img-fluid" alt="image" />
-
             <p className="card-text">Post Body</p>
-
-            <div className="d-flex justify-content-around">
+            <hr/>
+            
+            <div className="d-flex justify-content-between">
               <div>
                 <textarea
                   className="form-control"
@@ -62,16 +64,16 @@ class Post extends React.Component {
                   postID={post_id}
                 />
               </div>
-
-              <div>
-                <button
-                  className="btn btn-outline-primary"
-                  style={{ fontSize: "medium" }}
-                  onClick={() => removePost(post_id)}
-                >
-                  Remove
-                </button>
-              </div>
+            </div>
+            <br/>
+            <div>
+              <button
+                className="btn btn-outline-primary"
+                style={{ fontSize: "medium", width: "100%" }}
+                onClick={() => removePost(post_id)}
+              >
+                Remove
+              </button>
             </div>
           </div>
         </div>

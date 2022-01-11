@@ -4,17 +4,12 @@ import Like from "./like.component";
 
 class Post extends React.Component {
   render() {
-    const { post_id, date_posted, time_posted, is_liked, is_disliked, img } =
-      this.props.post;
+    const { post_id, date_posted, time_posted, is_liked, is_disliked, img } = this.props.post;
 
     const {
       handleToggleLike,
       handleToggleDislike,
       removePost,
-      increaseTotalNumberofLikes,
-      decreaseTotalNumberofLikes,
-      increaseTotalNumberofDislikes,
-      decreaseTotalNumberofDislikes,
     } = this.props;
 
     return (
@@ -34,9 +29,9 @@ class Post extends React.Component {
             <hr />
 
             <img src={img} className="img-fluid" alt="image" />
+
             <p className="card-text">Post Body</p>
-            <hr/>
-            
+
             <div className="d-flex justify-content-between">
               <div>
                 <textarea
@@ -48,8 +43,6 @@ class Post extends React.Component {
               <div>
                 <Like
                   handleToggleLike={handleToggleLike}
-                  increaseTotalNumberofLikes={increaseTotalNumberofLikes}
-                  decreaseTotalNumberofLikes={decreaseTotalNumberofLikes}
                   isLiked={is_liked}
                   postID={post_id}
                 />
@@ -58,22 +51,20 @@ class Post extends React.Component {
               <div>
                 <Dislike
                   handleToggleDislike={handleToggleDislike}
-                  increaseTotalNumberofDislikes={increaseTotalNumberofDislikes}
-                  decreaseTotalNumberofDislikes={decreaseTotalNumberofDislikes}
                   isDisliked={is_disliked}
                   postID={post_id}
                 />
               </div>
-            </div>
-            <br/>
-            <div>
-              <button
-                className="btn btn-outline-primary"
-                style={{ fontSize: "medium", width: "100%" }}
-                onClick={() => removePost(post_id)}
-              >
+
+              <div>
+                <button
+                  className="btn btn-outline-primary"
+                  style={{ fontSize: "medium" }}
+                  onClick={ () => removePost(post_id) }
+                >
                 Remove
-              </button>
+                </button>
+              </div>
             </div>
           </div>
         </div>

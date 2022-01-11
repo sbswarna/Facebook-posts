@@ -55,8 +55,8 @@ class Posts extends React.Component {
     const posts = [...this.state.posts];
     const post = posts.find((post) => post.post_id === postID);
 
-    if (post.is_liked === true) this.decreaseTotalNumberofLikes();
-    if (post.is_disliked === true) this.decreaseTotalNumberofDislikes();
+    if (post.is_liked === true) this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+    if (post.is_disliked === true) this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
 
     const updatedPosts = posts.filter((post) => {
       return post.post_id === postID ? false : true;
@@ -68,32 +68,19 @@ class Posts extends React.Component {
     console.log('Post Added')
   };
 
-  increaseTotalNumberofLikes = () => {
-    this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1});
-  };
-
-  decreaseTotalNumberofLikes = () => {
-    this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
-  };
-
-  increaseTotalNumberofDislikes = () => {
-    this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1 });
-  };
-
-  decreaseTotalNumberofDislikes = () => {
-    this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1});
-  };
-
   handleToggleLike = (postID) => {
     const posts = [...this.state.posts];
     const post = posts.find((post) => post.post_id === postID);
     post.is_liked = !post.is_liked;
-    if (post.is_liked === true) this.increaseTotalNumberofLikes();
-    else this.decreaseTotalNumberofLikes();
+
+    if (post.is_liked === true) this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1 });
+    else this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+
     if (post.is_disliked === true) {
-      this.decreaseTotalNumberofDislikes();
+      this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
       post.is_disliked = !post.is_disliked;
     }
+    
     this.setState({ posts });
   };
 
@@ -101,12 +88,15 @@ class Posts extends React.Component {
     const posts = [...this.state.posts];
     const post = posts.find((post) => post.post_id === postID);
     post.is_disliked = !post.is_disliked;
-    if (post.is_disliked === true) this.increaseTotalNumberofDislikes();
-    else this.decreaseTotalNumberofDislikes();
+
+    if (post.is_disliked === true) this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1 });
+    else this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
+
     if (post.is_liked === true) {
-      this.decreaseTotalNumberofLikes();
+      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
       post.is_liked = !post.is_liked;
     }
+
     this.setState({ posts });
   };
 
@@ -133,20 +123,12 @@ class Posts extends React.Component {
               <>
                 <div className="m-4">
                   <Post
-                    key={index}
-                    post={post}
-                    postID={post.post_id}
-                    removePost={this.removePost}
-                    handleToggleLike={this.handleToggleLike}
-                    handleToggleDislike={this.handleToggleDislike}
-                    increaseTotalNumberofDislikes={
-                      this.increaseTotalNumberofDislikes
-                    }
-                    decreaseTotalNumberofDislikes={
-                      this.decreaseTotalNumberofDislikes
-                    }
-                    increaseTotalNumberofLikes={this.increaseTotalNumberofLikes}
-                    decreaseTotalNumberofLikes={this.decreaseTotalNumberofLikes}
+                    key = { index }
+                    post = { post }
+                    postID = { post.post_id }
+                    removePost = { this.removePost }
+                    handleToggleLike = { this.handleToggleLike }
+                    handleToggleDislike = { this.handleToggleDislike }
                   />
                 </div>
               </>

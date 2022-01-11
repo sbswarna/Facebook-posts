@@ -4,6 +4,8 @@ import Post from "./post.component";
 
 class Posts extends React.Component {
   state = {
+    totalNumberOfLikes: 0,
+    totalNumberOfDislikes: 0,
     posts: [
       {
         post_id: 1,
@@ -46,8 +48,6 @@ class Posts extends React.Component {
         is_disliked: false,
       },
     ],
-    totalNumberOfLikes: 0,
-    totalNumberOfDislikes: 0,
   };
 
   removePost = (postID) => {
@@ -79,27 +79,19 @@ class Posts extends React.Component {
   };
 
   increaseTotalNumberofLikes = () => {
-    let totalNumberOfLikes = this.state.totalNumberOfLikes;
-    totalNumberOfLikes++;
-    this.setState({ totalNumberOfLikes });
+    this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1});
   };
 
   decreaseTotalNumberofLikes = () => {
-    let totalNumberOfLikes = this.state.totalNumberOfLikes;
-    totalNumberOfLikes--;
-    this.setState({ totalNumberOfLikes });
+    this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
   };
 
   increaseTotalNumberofDislikes = () => {
-    let totalNumberOfDislikes = this.state.totalNumberOfDislikes;
-    totalNumberOfDislikes++;
-    this.setState({ totalNumberOfDislikes });
+    this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1 });
   };
 
   decreaseTotalNumberofDislikes = () => {
-    let totalNumberOfDislikes = this.state.totalNumberOfDislikes;
-    totalNumberOfDislikes--;
-    this.setState({ totalNumberOfDislikes });
+    this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1});
   };
 
   handleToggleLike = (postID) => {
@@ -135,6 +127,7 @@ class Posts extends React.Component {
           totalNumberOfLikes={this.state.totalNumberOfLikes}
           totalNumberOfDislikes={this.state.totalNumberOfDislikes}
         />
+
         <div>
           <button
             className="btn btn-outline-primary mx-4 mt-4"
@@ -143,6 +136,7 @@ class Posts extends React.Component {
             Add New Post
           </button>
         </div>
+
         <div className="d-flex flex-wrap justify-content-left">
           {this.state.posts.map((post, index) => {
             return (

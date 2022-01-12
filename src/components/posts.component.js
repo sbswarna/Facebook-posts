@@ -19,7 +19,7 @@ class Posts extends React.Component {
         post_id: 2,
         date_posted: "07 October 2021",
         time_posted: "10:41 AM",
-        img: require("../images/img2.jpeg"),
+        img: require("../images/img1.jpeg"),
         is_liked: false,
         is_disliked: false,
       },
@@ -27,7 +27,7 @@ class Posts extends React.Component {
         post_id: 3,
         date_posted: "10 June 2021",
         time_posted: "04:01 PM",
-        img: require("../images/img3.jpeg"),
+        img: require("../images/img1.jpeg"),
         is_liked: false,
         is_disliked: false,
       },
@@ -35,7 +35,7 @@ class Posts extends React.Component {
         post_id: 4,
         date_posted: "23 April 2020",
         time_posted: "11:01 AM",
-        img: require("../images/img4.jpeg"),
+        img: require("../images/img1.jpeg"),
         is_liked: false,
         is_disliked: false,
       },
@@ -43,11 +43,12 @@ class Posts extends React.Component {
         post_id: 5,
         date_posted: "01 May 2019",
         time_posted: "09:17 PM",
-        img: require("../images/img5.jpeg"),
+        img: require("../images/img1.jpeg"),
         is_liked: false,
         is_disliked: false,
       },
     ],
+    length: 5,
   };
 
   removePost = (postID) => {
@@ -55,8 +56,12 @@ class Posts extends React.Component {
     const posts = [...this.state.posts];
     const post = posts.find((post) => post.post_id === postID);
 
-    if (post.is_liked === true) this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
-    if (post.is_disliked === true) this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
+    if (post.is_liked === true)
+      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+    if (post.is_disliked === true)
+      this.setState({
+        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
+      });
 
     const updatedPosts = posts.filter((post) => {
       return post.post_id === postID ? false : true;
@@ -65,7 +70,18 @@ class Posts extends React.Component {
   };
 
   addNewPost = () => {
-    console.log('Post Added')
+    const posts = [...this.state.posts];
+    const post = {
+      post_id: this.state.length + 1,
+      date_posted: "01 May 2019",
+      time_posted: "09:17 PM",
+      img: require("../images/img1.jpeg"),
+      is_liked: false,
+      is_disliked: false,
+    };
+
+    posts.push(post);
+    this.setState({ posts, length: this.state.length + 1 });
   };
 
   handleToggleLike = (postID) => {
@@ -73,14 +89,18 @@ class Posts extends React.Component {
     const post = posts.find((post) => post.post_id === postID);
     post.is_liked = !post.is_liked;
 
-    if (post.is_liked === true) this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1 });
-    else this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+    if (post.is_liked === true)
+      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1 });
+    else
+      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
 
     if (post.is_disliked === true) {
-      this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
+      this.setState({
+        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
+      });
       post.is_disliked = !post.is_disliked;
     }
-    
+
     this.setState({ posts });
   };
 
@@ -89,8 +109,14 @@ class Posts extends React.Component {
     const post = posts.find((post) => post.post_id === postID);
     post.is_disliked = !post.is_disliked;
 
-    if (post.is_disliked === true) this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1 });
-    else this.setState({ totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1 });
+    if (post.is_disliked === true)
+      this.setState({
+        totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1,
+      });
+    else
+      this.setState({
+        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
+      });
 
     if (post.is_liked === true) {
       this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
@@ -123,12 +149,12 @@ class Posts extends React.Component {
               <>
                 <div className="m-4">
                   <Post
-                    key = { index }
-                    post = { post }
-                    postID = { post.post_id }
-                    removePost = { this.removePost }
-                    handleToggleLike = { this.handleToggleLike }
-                    handleToggleDislike = { this.handleToggleDislike }
+                    key={this.state.length}
+                    post={post}
+                    postID={post.post_id}
+                    removePost={this.removePost}
+                    handleToggleLike={this.handleToggleLike}
+                    handleToggleDislike={this.handleToggleDislike}
                   />
                 </div>
               </>

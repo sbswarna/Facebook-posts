@@ -1,54 +1,57 @@
 import React, { Component } from "react";
-import Navbar from "./navbar.component";
+import NewPostForm from "./new-post-form.component";
 import Post from "./post.component";
 
 class Posts extends React.Component {
   state = {
-    totalNumberOfLikes: 0,
-    totalNumberOfDislikes: 0,
+    displayForm: false,
     posts: [
       {
         post_id: 1,
-        date_posted: "01 January 2022",
-        time_posted: "12:01 PM",
+        date_posted: "2022-01-01",
+        time_posted: "12:01 AM",
         img: require("../images/img1.jpeg"),
+        post_body: "Post Body",
         is_liked: false,
         is_disliked: false,
       },
       {
         post_id: 2,
-        date_posted: "07 October 2021",
-        time_posted: "10:41 AM",
-        img: require("../images/img2.jpeg"),
+        date_posted: "2021-10-07",
+        time_posted: "10:41 PM",
+        img: require("../images/img1.jpeg"),
+        post_body: "Post Body",
         is_liked: false,
         is_disliked: false,
       },
       {
         post_id: 3,
-        date_posted: "10 June 2021",
+        date_posted: "2021-06-10",
         time_posted: "04:01 PM",
-        img: require("../images/img3.jpeg"),
+        img: require("../images/img1.jpeg"),
+        post_body: "Post Body",
         is_liked: false,
         is_disliked: false,
       },
       {
         post_id: 4,
-        date_posted: "23 April 2020",
+        date_posted: "2020-04-23",
         time_posted: "11:01 AM",
-        img: require("../images/img4.jpeg"),
+        img: require("../images/img1.jpeg"),
+        post_body: "Post Body",
         is_liked: false,
         is_disliked: false,
       },
       {
         post_id: 5,
-        date_posted: "01 May 2019",
-        time_posted: "09:17 PM",
-        img: require("../images/img5.jpeg"),
+        date_posted: "2019-05-01",
+        time_posted: "09:17 AM",
+        img: require("../images/img1.jpeg"),
+        post_body: "Post Body",
         is_liked: false,
         is_disliked: false,
       },
     ],
-    length: 5,
   };
 
   removePost = (postID) => {
@@ -56,12 +59,8 @@ class Posts extends React.Component {
     const posts = [...this.state.posts];
     const post = posts.find((post) => post.post_id === postID);
 
-    if (post.is_liked === true)
-      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
-    if (post.is_disliked === true)
-      this.setState({
-        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
-      });
+    if (post.is_liked === true) this.props.decreaseTotalLikes();
+    if (post.is_disliked === true) this.props.decreaseTotalDislikes();
 
     const updatedPosts = posts.filter((post) => {
       return post.post_id === postID ? false : true;
@@ -69,19 +68,41 @@ class Posts extends React.Component {
     this.setState({ posts: updatedPosts });
   };
 
-  addNewPost = () => {
+  addNewPost = (newPost) => {
+    this.displayPostForm();
+    
+    const time = newPost.time_posted.split(":");
+    let hours, minutes, meridian;
+    hours = time[0];
+    minutes = time[1];
+    if (hours > 12) {
+      meridian = "PM";
+      hours -= 12;
+    } else if (hours < 12) {
+      meridian = "AM";
+      if (hours === 0) {
+        hours = 12;
+      }
+    } else {
+      meridian = "PM";
+    }
+    
     const posts = [...this.state.posts];
     const post = {
-      post_id: this.state.length + 1,
-      date_posted: "01 May 2019",
-      time_posted: "09:17 PM",
+      post_id: posts.length > 0 ? posts[posts.length - 1].post_id + 1 : 1,
+      date_posted: newPost.date_posted,
+      time_posted: hours + ":" + minutes + " " + meridian,
       img: require("../images/img1.jpeg"),
-      is_liked: false,
-      is_disliked: false,
+      post_body: newPost.post_body,
+      is_liked: newPost.is_liked,
+      is_disliked: newPost.is_disliked,
     };
-
     posts.push(post);
-    this.setState({ posts, length: this.state.length + 1 });
+    this.setState({ posts });
+  };
+
+  displayPostForm = () => {
+    this.setState({ displayForm: !this.state.displayForm });
   };
 
   handleToggleLike = (postID) => {
@@ -89,15 +110,11 @@ class Posts extends React.Component {
     const post = posts.find((post) => post.post_id === postID);
     post.is_liked = !post.is_liked;
 
-    if (post.is_liked === true)
-      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes + 1 });
-    else
-      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+    if (post.is_liked === true) this.props.increaseTotalLikes();
+    else this.props.decreaseTotalLikes();
 
     if (post.is_disliked === true) {
-      this.setState({
-        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
-      });
+      this.props.increaseTotalDislikes();
       post.is_disliked = !post.is_disliked;
     }
 
@@ -109,17 +126,11 @@ class Posts extends React.Component {
     const post = posts.find((post) => post.post_id === postID);
     post.is_disliked = !post.is_disliked;
 
-    if (post.is_disliked === true)
-      this.setState({
-        totalNumberOfDislikes: this.state.totalNumberOfDislikes + 1,
-      });
-    else
-      this.setState({
-        totalNumberOfDislikes: this.state.totalNumberOfDislikes - 1,
-      });
+    if (post.is_disliked === true) this.props.increaseTotalDislikes();
+    else this.props.decreaseTotalDislikes();
 
     if (post.is_liked === true) {
-      this.setState({ totalNumberOfLikes: this.state.totalNumberOfLikes - 1 });
+      this.props.decreaseTotalLikes();
       post.is_liked = !post.is_liked;
     }
 
@@ -129,27 +140,26 @@ class Posts extends React.Component {
   render() {
     return (
       <>
-        <Navbar
-          totalNumberOfLikes={this.state.totalNumberOfLikes}
-          totalNumberOfDislikes={this.state.totalNumberOfDislikes}
-        />
-
         <div>
           <button
             className="btn btn-outline-primary mx-4 mt-4"
-            onClick={this.addNewPost}
+            onClick={this.displayPostForm}
           >
             Add New Post
           </button>
+          {this.state.displayForm === true ? (
+            <NewPostForm addNewPost={this.addNewPost} />
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="d-flex flex-wrap justify-content-left">
           {this.state.posts.map((post, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 <div className="m-4">
                   <Post
-                    key={this.state.length}
                     post={post}
                     postID={post.post_id}
                     removePost={this.removePost}
@@ -157,7 +167,7 @@ class Posts extends React.Component {
                     handleToggleDislike={this.handleToggleDislike}
                   />
                 </div>
-              </>
+              </React.Fragment>
             );
           })}
         </div>

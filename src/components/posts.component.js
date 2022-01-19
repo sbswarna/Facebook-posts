@@ -70,7 +70,6 @@ class Posts extends React.Component {
 
   addNewPost = (newPost) => {
     this.displayPostForm();
-    
     const time = newPost.time_posted.split(":");
     let hours, minutes, meridian;
     hours = time[0];
@@ -86,7 +85,6 @@ class Posts extends React.Component {
     } else {
       meridian = "PM";
     }
-    
     const posts = [...this.state.posts];
     const post = {
       post_id: posts.length > 0 ? posts[posts.length - 1].post_id + 1 : 1,

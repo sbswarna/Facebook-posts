@@ -4,7 +4,7 @@ import Like from "./like.component";
 
 class Post extends React.Component {
   render() {
-    const { post_id, date_posted, time_posted, is_liked, is_disliked, img } = this.props.post;
+    const { post_id, date_posted, time_posted, is_liked, is_disliked, img, post_body } = this.props.post;
 
     const {
       handleToggleLike,
@@ -12,13 +12,13 @@ class Post extends React.Component {
       removePost,
     } = this.props;
 
-    return (
+    return ( 
       <>
         <div className="card" style={{ width: "25rem" }}>
           <div className="card-body">
             <div className="d-flex justify-content-between">
               <div>
-                <h5 className="card-title">Post-{post_id}</h5>
+                <h5 className="card-title">Post - {post_id}</h5>
               </div>
               <div>
                 <h6 style={{ fontSize: "small" }}>
@@ -30,7 +30,8 @@ class Post extends React.Component {
 
             <img src={img} className="img-fluid" alt="image" />
 
-            <p className="card-text">Post Body</p>
+            <p className="card-text">{post_body}</p>
+            <hr/>
 
             <div className="d-flex justify-content-between">
               <div>
@@ -58,7 +59,7 @@ class Post extends React.Component {
 
               <div>
                 <button
-                  className="btn btn-outline-primary"
+                  className="btn btn-outline-danger"
                   style={{ fontSize: "medium" }}
                   onClick={ () => removePost(post_id) }
                 >
